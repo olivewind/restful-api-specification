@@ -82,7 +82,7 @@
     message: "请求成功",
     data: {
       id: 1,
-      name: '任务1'
+      name: '任务 1'
     }
   }
   ```
@@ -97,19 +97,19 @@
     data: {
       items: [{
         id: 1,
-        name: '任务1'
+        name: '任务 1'
       }, {
         id: 2,
-        name: '任务2'
+        name: '任务 2'
       }],
       total: 2
     }
   }
   ```
 
-需要注意的是其中 `code` 表示业务编码，`status` 表示 HTTP 状态码，如此设计的原因是部分场景下前后端之间存在不可控的网关或代理（比如某些网关有一些流量控制策略会导致直接返回 403 状态码，此时客户端无法分辨 403 是网关的还是业务方），类似这类情况下为了能够让客户端 正确 分辨业务方的处理结果则需要在响应体加上 `status`，而 `code` 表示的业务编码是为了帮助工程师更容易定位问题，它并不是必须的，这取决你们团队风格。
+注意：其中 `code` 表示业务编码，`status` 表示 HTTP 状态码，如此设计的原因是部分场景下前后端之间存在不可控的网关或代理（比如某些网关有一些流量控制策略会导致直接返回 403 状态码，此时客户端无法分辨 403 是网关的还是业务方），类似这类情况下为了能够让客户端正确分辨业务方的真实处理结果则需要在响应体加上 `status`，而 `code` 表示的业务编码是为了帮助工程师更容易定位问题，它并不是必须的，这取决你们团队风格。
 
-> 尽管在响应体中体现了状态码，但这并不代表所有 HTTP 就可以全部返回 200 了，无论如何在条件范围内请尽可能使用标准的 HTTP 状态码
+> 尽管在响应体中体现了状态码，但这并不代表所有 HTTP 就可以全部返回 200 了，无论如何请在条件允许范围内请尽可能使用标准的 HTTP 状态码
 
 **1.9 请求和响应字段采用 `aa_bb_cc` 方式命名**
 
@@ -172,7 +172,13 @@
   status: 200;
   message: "请求成功",
   data: {
-    role_ids: [11,12,35],
+    roles: [{
+      id: 1,
+      name: '角色 1'
+    }, {
+      id: 2,
+      name: '角色 2'
+    }]
   }
 }
 // 错误
@@ -181,7 +187,7 @@
   status: 200;
   message: "请求成功",
   data: {
-    role_ids: '[11,12,35]'
+    roles: '[{"id":1,"name":"角色 1"},{"id":2,"name":"角色 2"}]'
   }
 }
 ```
@@ -208,14 +214,14 @@
 ```javascript
 // 正确
 {
-  username: 'user1'
+  username: 'ming'
   password: 'xxxx',
-  role_ids: [1,2,3]
+  role_ids: [1, 2, 3]
 }
 
 // 错误
 {
-  username: 'user1'
+  username: 'ming'
   password: 'xxxx',
   role_ids: [{
     id: 1,
@@ -284,13 +290,13 @@
     username: 'ming'
     roles: [{
        id: 1,
-       name: '角色1'
+       name: '角色 1'
     }, {
        id: 2,
-       name: '角色2'
+       name: '角色 2'
     }, {
        id: 3,
-       name: '角色3'
+       name: '角色 3'
     }]
   }
 }
@@ -306,8 +312,8 @@
   message: "请求成功",
   data: {
     id: 1,
-    name: '训练任务'
-    status: 'training'  // 'pending' |'training' | 'complete' | 'error'
+    name: '任务 1'
+    status: 'pending'  // 'pending' | 'complete' | 'error'
   }
 }
 // 错误
@@ -317,7 +323,7 @@
   message: "请求成功",
   data: {
     id: 1,
-    name: '训练任务'
+    name: '任务 1'
     status: 0
   }
 }
@@ -333,10 +339,10 @@
   message: "请求成功",
   data: {
     id: 1,
-    name: '训练任务'
+    name: '任务 1'
     creator: {
       id: 1,
-      username: 'ming'
+      username: '小明'
     }
   }
 }
@@ -347,9 +353,9 @@
   message: "请求成功",
   data: {
     id: 1,
-    name: '训练任务'
+    name: '任务 1'
     creator_id: 1,
-    creator_name: 'ming'
+    creator_name: '小明'
   }
 }
 ```
@@ -420,10 +426,10 @@
   message: "请求成功",
   data: {
     id: 1,
-    name: 'ming'
+    name: '小明'
     avatar: '/files/bb313c99.png',
     // 或
-    avatar: 'https://cdn.xxx.com/apps/1/files/bb313c99.png',
+    avatar: 'https://cdn.xxx.com/files/bb313c99.png',
   }
 }
 // 错误
@@ -433,7 +439,7 @@
   message: "请求成功",
   data: {
     id: 1,
-    name: 'ming'
+    name: '小明'
     avatar: 'bb313c99.png'
   }
 }
@@ -444,14 +450,14 @@
 ```javascript
 // 正确
 {
-  name: 'new task',
+  name: '新任务 1',
   file_id: 'bb313c99',
   // 或
   file_url: '/files/bb313c99.pdf',
 }
 // 错误
 {
-  name: 'new task',
+  name: '新任务 1',
   file: File
 }
 ```
@@ -460,25 +466,25 @@
 
 ## 5. 敏感类接口
 
-**5.1 涉及到用户隐私的应该对相关字段做加密处理，**
-
-以登录为例：POST [/api/login](/api/login])
+**5.1 涉及到用户隐私的应该对相关字段做加密处理**
 
 ```javascript
 // 正确
 {
-  username: 'ming'
+  name: '小明',
+  id_number: 'U2FsdGVkX1+1fW7OpO/tlPXe4IGA/bXExlhKwIR/spk=',
   password: 'U2FsdGVkX1/AnXKSBDbztNBfp4czlZxQ++3jRtNZhY0=',
 }
 
 // 错误
 {
-  username: 'ming'
+  name: '小明',
+  id_number: '310000199511159999',
   password: 'ming@xxx.com',
 }
 ```
 
-注意：本规范不约定使用何种加密算法，请视实际场景而定
+注意：本规范不约定使用何种加密算法，请视实际场景选择
 
 ## 6. 图表类接口
 
@@ -492,12 +498,12 @@
   data: {
     x_axis: ['2022.04.20','2022.04.21', '2022.04.22']
     series: [{
-      name: '新增用户'，
-      data： [1,0,2],
+      name: '上海用户'，
+      data： [5000,4000,3000],
       color: '#f5f5f5' // 可选，如果加上的话会使用该色值
     }, {
-      name: '活跃用户'，
-      data： [1,0,3],  // 注意，没有数据时候也要使用 0 填充，应该和 x_axis 一一对应
+      name: '成都用户'，
+      data： [3000,4000,5000],  // 注意，没有数据时候也要使用 0 填充，应该和 x_axis 一一对应
       color: '#f5f5f5'
     }]
   }
