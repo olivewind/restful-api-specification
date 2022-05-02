@@ -15,37 +15,37 @@
 
 **1.1 接口路径以 /api 或 /[version]/api 开头**
 
-正确：[/api/tasks](/api/tasks) 或 [/v2/api/tasks](/v2/api//tasks)
+✅：[/api/tasks](/api/tasks) 或 [/v2/api/tasks](/v2/api//tasks)
 
-错误：[/biz/tasks](/biz/tasks) 或 [/biz/api/tasks](/biz/api/tasks)
+❌：[/biz/tasks](/biz/tasks) 或 [/biz/api/tasks](/biz/api/tasks)
 
 注意：一个产品无论后端有多少个服务组成也应该只有一个 API 入口
 
 **1.2 接口路径以 api/aa-bb/cc-dd 方式命名**
 
-正确：[/api/task-groups](/api/task-groups)
+✅：[/api/task-groups](/api/task-groups)
 
-错误：[/api/taskGroups](/api/taskGroups)
+❌：[/api/taskGroups](/api/taskGroups)
 
 **1.3 接口路径使用资源名词而非动词，动作应由 HTTP Method 体现，资源组可以进行逻辑嵌套**
 
-正确：POST [/api/tasks](/api/tasks) 或 [/api/task-groups/1/tasks](/api/task-groups/1/tasks) 表示在 id 为 1 的任务组下创建任务
+✅：POST [/api/tasks](/api/tasks) 或 [/api/task-groups/1/tasks](/api/task-groups/1/tasks) 表示在 id 为 1 的任务组下创建任务
 
-错误：POST [/api/create-task](/api/create-task)
+❌：POST [/api/create-task](/api/create-task)
 
 **1.4 接口路径中的资源使用复数而非单数**
 
-正确：[/api/tasks](/api/tasks)
+✅：[/api/tasks](/api/tasks)
 
-错误：[/api/task](/api/task)
+❌：[/api/task](/api/task)
 
 **1.5 接口设计面向开放接口，而非单纯前端业务**
 
 要求我们在给结构路径命名时候面向通用业务的开放接口，而非单纯前端业务，以获取筛选表单中的任务字段下拉选项为例
 
-正确：[/api/tasks](/api/tasks)
+✅：[/api/tasks](/api/tasks)
 
-错误：[/api/task-select-options](/api/task-select-options)
+❌：[/api/task-select-options](/api/task-select-options)
 
 虽然这个接口暂时只用在表单的下拉选择中，但是需要考虑的是在未来可能会被用在任意场景，因此应以更通用方式提供接口交由客户端自由组合
 
@@ -103,18 +103,18 @@
   }
   ```
 
-需要注意的是其中 `code` 表示业务编码，`status` 表示 HTTP 状态码，如此设计的原因是部分场景下前后端之间存在不可控的网关或代理（比如某些网关有一些流量控制策略会导致直接返回 403 状态码，此时客户端无法分辨 403 是网关的还是业务方），类似这类情况下为了能够让客户端正确分辨业务方的处理结果则需要在响应体加上 `status`，而 `code` 表示的业务编码是为了帮助工程师更容易定位问题，它并不是必须的，这取决你们团队风格。
+需要注意的是其中 `code` 表示业务编码，`status` 表示 HTTP 状态码，如此设计的原因是部分场景下前后端之间存在不可控的网关或代理（比如某些网关有一些流量控制策略会导致直接返回 403 状态码，此时客户端无法分辨 403 是网关的还是业务方），类似这类情况下为了能够让客户端 ✅ 分辨业务方的处理结果则需要在响应体加上 `status`，而 `code` 表示的业务编码是为了帮助工程师更容易定位问题，它并不是必须的，这取决你们团队风格。
 
 > 尽管在响应体中体现了状态码，但这并不代表所有 HTTP 就可以全部返回 200 了，无论如何在条件范围内请尽可能使用标准的 HTTP 状态码
 
 **1.8 请求和响应字段采用 `aa_bb_cc` 方式命名**
 
 ```javascript
-// 正确
+// ✅
 {
   role_ids: [11,12,35],
 }
-// 错误
+// ❌
 {
   roleIds: [11, 12, 35],
   RoleIds: [11, 12, 35],
@@ -137,7 +137,7 @@
 **1.11 空数组应该使用 []，而不是 null**
 
 ```javascript
-// 正确
+// ✅
 {
   code: 20000
   status: 200;
@@ -147,7 +147,7 @@
     role_ids: [],
   }
 }
-// 错误
+// ❌
 {
   code: 20000
   status: 200;
@@ -162,7 +162,7 @@
 **1.12 前后端传输过程以标准 JSON 格式，避免反复正反序列化**
 
 ```javascript
-// 正确
+// ✅
 {
   code: 20000
   status: 200;
@@ -171,7 +171,7 @@
     role_ids: [11,12,35],
   }
 }
-// 错误
+// ❌
 {
   code: 20000
   status: 200;
@@ -202,14 +202,14 @@
 以创建用户为例：POST [/api/users](/api/users)
 
 ```javascript
-// 正确
+// ✅
 {
   username: 'user1'
   password: 'xxxx',
   role_ids: [1,2,3]
 }
 
-// 错误
+// ❌
 {
   username: 'user1'
   password: 'xxxx',
@@ -226,7 +226,7 @@
 }
 ```
 
-**2.3 参数缺失错误以数组形式返回，并附带用户友好的提示**
+**2.3 参数错误以数组形式返回，并附带用户友好的提示**
 
 ```javascript
 {
@@ -295,7 +295,7 @@
 **3.5 状态应该使用有语义的枚举，而不是纯数字**
 
 ```javascript
-// 正确
+// ✅
 {
   code: 20000
   status: 200;
@@ -306,7 +306,7 @@
     status: 'training'  // 'pending' |'training' | 'complete' | 'error'
   }
 }
-// 错误
+// ❌
 {
   code: 20000
   status: 200;
@@ -322,7 +322,7 @@
 **3.6 合理自然嵌套结构而不是平铺**
 
 ```javascript
-// 正确
+// ✅
 {
   code: 20000
   status: 200;
@@ -334,7 +334,7 @@
     creator_name: 'ming'
   }
 }
-// 错误
+// ❌
 {
   code: 20000
   status: 200;
@@ -409,7 +409,7 @@
 **4.2 文件路径应该由服务端至少补全至根路径**
 
 ```javascript
-// 正确
+// ✅
 {
   code: 20000
   status: 200;
@@ -422,7 +422,7 @@
     avatar: 'https://cdn.xxx.com/apps/1/files/bb313c99.png',
   }
 }
-// 错误
+// ❌
 {
   code: 20000
   status: 200;
@@ -438,14 +438,14 @@
 **4.3 对于使用到文件的接口应该使用文件 id 或地址而非 FormData**
 
 ```javascript
-// 正确
+// ✅
 {
   name: 'new task',
   file_id: 'bb313c99',
   // 或
   file_url: '/files/bb313c99.pdf',
 }
-// 错误
+// ❌
 {
   name: 'new task',
   file: File
@@ -461,13 +461,13 @@
 以登录为例：POST [/api/login](/api/login])
 
 ```javascript
-// 正确
+// ✅
 {
   username: 'ming'
   password: 'U2FsdGVkX1/AnXKSBDbztNBfp4czlZxQ++3jRtNZhY0=',
 }
 
-// 错误
+// ❌
 {
   username: 'ming'
   password: 'ming@xxx.com',
