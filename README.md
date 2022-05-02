@@ -1,6 +1,6 @@
-本规范制定的三个目标：**简洁**、**统一**、**开放**，关于如何设计良好风格的 Restful API，Github 有一份[满分答案](https://docs.github.com/en/rest/reference/actions)，熟读三遍，其义自现。
+本规范的三个目标：**简洁**、**统一**、**开放**。
 
-本规范将使用尽可能简单的表述方式从以下几个部分分别作出约定：
+关于如何设计良好风格的 RESTful API，Github 有一份[满分答案](https://docs.github.com/en/rest/reference/actions)，熟读三遍，其义自现。本规范将在其基础之上使用尽可能简单的表述方式从以下几个常见部分作出详细约定：
 
 - 基础约定
 - 创建类接口
