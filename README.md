@@ -274,7 +274,7 @@
 
 注意：其中 `page` 从 1 开始，而不是 0，如果没有传递 `per_page` 和 `page` 参数表示不分页获取所有数据
 
-#### 3.3 普通筛选使用健值对，多列模糊查询使用 `keyword` 关键词，枚举筛选使用数组合并拼接，区间使用 `xxx_lt` 和 `xxx_gt` 关键词
+#### 3.3 普通筛选使用键值对，多列模糊查询使用 `keyword` 关键词，枚举筛选使用数组合并拼接，区间使用 `xxx_lt` 和 `xxx_gt` 关键词
 
 例如 GET [/api/tasks?creator=ming](/api/tasks?creator=ming) 表示查询所有 ming 用户创建的任务
 
@@ -378,7 +378,7 @@
 
 ## 4. 文件类接口
 
-#### 4.1 统一提供统单文件上传接口（[/api/files](/api/file)），支持上传所有类型文件
+#### 4.1 统一提供单文件上传接口（[/api/files](/api/file)），支持上传所有类型文件
 
 ```javascript
 // 请求，注意这里是 FormData
@@ -399,7 +399,7 @@
 }
 ```
 
-#### 4.2 统一提供统多文件上传接口（[/api/multiple-files](/api/multiple-files)），支持上传所有类型文件
+#### 4.2 统一提供多文件上传接口（[/api/multiple-files](/api/multiple-files)），支持上传所有类型文件
 
 ```javascript
 // 请求，注意这里是 FormData
