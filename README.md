@@ -11,7 +11,7 @@
 
 > 注意本规范是笔者在所在公司内部制定的规范整理而来的接口规范模板，仅供你在制定规范时候参考，在落地时应根据团队实际情况作出调整，欢迎对本规范进行补充
 
-## **1. 基础约定**
+## 1. 基础约定
 
 **1.1 接口路径以 /api 或 /[version]/api 开头**
 
@@ -51,13 +51,13 @@
 
 **1.6 规范使用 HTTP 方法**
 
-| 方法   | 场景     | 例如                                                                               |
-| ------ | -------- | ---------------------------------------------------------------------------------- |
-| GET    | 获取     | 获取单个：GET [/api/tasks/1](/api/tasks/1)、获取列表：GET [/api/tasks](/api/tasks) |
-| POST   | 创建     | 创建单个：POST [/api/tasks](/api/tasks)                                            |
-| PATCH  | 差量修改 | 修改单个：PATCH [/api/tasks/1](/api/tasks/1)                                       |
-| PUT    | 全量修改 | 修改单个：PUT [/api/tasks/1](/api/tasks/1)                                         |
-| DELETE | 删除     | 删除单个：DELETE [/api/tasks/1](/api/tasks/1)                                      |
+| 方法   | 场景         | 例如                                                                               |
+| ------ | ------------ | ---------------------------------------------------------------------------------- |
+| GET    | 获取数据     | 获取单个：GET [/api/tasks/1](/api/tasks/1)、获取列表：GET [/api/tasks](/api/tasks) |
+| POST   | 创建数据     | 创建单个：POST [/api/tasks](/api/tasks)                                            |
+| PATCH  | 差量修改数据 | 修改单个：PATCH [/api/tasks/1](/api/tasks/1)                                       |
+| PUT    | 全量修改数据 | 修改单个：PUT [/api/tasks/1](/api/tasks/1)                                         |
+| DELETE | 删除数据     | 删除单个：DELETE [/api/tasks/1](/api/tasks/1)                                      |
 
 **1.7 规范使用 HTTP 状态码**
 
@@ -186,7 +186,7 @@
 }
 ```
 
-## **2. 创建类接口**
+## 2. 创建类接口
 
 **2.1 创建完成后直接返回 id**
 
@@ -246,21 +246,21 @@
 }
 ```
 
-## **3. 查询类接口**
+## 3. 查询类接口
 
 **3.1 排序使用 sort 和 order**
 
-例如 GET [/api/](/api/user/1)[tasks?](/api/user/1)[sort=create_time&order=descend](/api/users?sort_key=create_time&sort_order=descend)
+例如 GET [/api/](/api/user/1)[tasks?](/api/user/1)[sort=created_at&order=descend](/api/users?sort_key=create_time&sort_order=descend) 表示以创建时间降序查询数据
 
-其中 `order` 为 `descend` 时表示降序，为 `ascend` 时表示升序
+注意：其中 `order` 为 `descend` 时表示降序，为 `ascend` 时表示升序
 
 **3.2 分页使用 page 和 per_page**
 
-例如 GET [/api/tasks?page=1&per_page=10](/api/tasks?page=1&per_page=10)
+例如 GET [/api/tasks?page=1&per_page=10](/api/tasks?page=1&per_page=10) 表示每页 10 条查询第一页数据
 
-其中 `page` 从 1 开始，而不是 0，如果没有传递 `per_page` 和 `page` 参数表示不分页获取所有数据
+注意：其中 `page` 从 1 开始，而不是 0，如果没有传递 `per_page` 和 `page` 参数表示不分页获取所有数据
 
-**3.3 普通筛选使用健值对，举筛选使用数组合并拼接，多列模糊查询使用 `keyword` 关键词，时间区间使用 `start_xx_time` 和 `end_xx_time`**
+**3.3 普通筛选使用健值对，多列模糊查询使用 `keyword` 关键词，枚举筛选使用数组合并拼接，区间使用 `xxx_lt` 和 `xxx_gt` 关键词**
 
 例如 GET [/api/tasks?creator=ming](/api/tasks?creator=ming) 表示查询所有 ming 用户创建的任务
 
@@ -268,9 +268,11 @@
 
 例如 GET [/api/tasks?status=pending,complete](/api/tasks?status=pending,complete) 表示查询状态为阻塞和完成的任务
 
-例如 GET [/api/tasks?start_create_time=2022-04-20T00:00:00-02:00Z&end_create_time=2022-04-25T23:59:59-02:00Z](/api/tasks?start_create_time=2022-04-20T00:00:00-02:00Z&end_create_time=2022-04-25T23:59:59-02:00Z) 表示查询 2022.04.22-2022.4.25 之间创建的任务
+例如 GET [/api/tasks?price_gt=10&price_lt=20](/api/tasks?price_gt=10&price_lt=20) 表示查询价格在 10 和 20 之间的任务
 
-**3.4 应该返回所有关联数据展开详情**
+例如 GET [/api/tasks?price_gt=10](/api/tasks?price_gt=10) 表示查询价格大于 10 的任务
+
+**3.4 应该尽可能返回所有关联数据展开详情，便于客户端显示**
 
 ```javascript
 {
@@ -280,8 +282,6 @@
   data: {
     id: 1,
     username: 'ming'
-    role_ids: [1,2,3],
-    // 注意这里会展开角色信息，便于客户端显示
     roles: [{
        id: 1,
        name: '角色1'
@@ -296,7 +296,7 @@
 }
 ```
 
-**3.5 状态应该使用有语义的枚举，而不是纯数字**
+**3.5 可枚举字段应该使用有无语义英文而非无语义数字**
 
 ```javascript
 // 正确
@@ -334,8 +334,10 @@
   data: {
     id: 1,
     name: '训练任务'
-    creator_id: 1,
-    creator_name: 'ming'
+    creator: {
+      id: 1,
+      username: 'ming'
+    }
   }
 }
 // 错误
@@ -346,10 +348,8 @@
   data: {
     id: 1,
     name: '训练任务'
-    creator: {
-      id: 1,
-      username: 'ming'
-    }
+    creator_id: 1,
+    creator_name: 'ming'
   }
 }
 ```
@@ -358,59 +358,59 @@
 
 例如 DELETE [/api/tasks/1](/api/tasks/1)表示删除 id 为 1 的任务
 
-例如 DELETE [/api/tasks?ids=1,2,3](/api/tasks?ids=1,2,3) 表示批量删除 id 为 1 或 2 或 3 的任务（如果列表数据量较大，容易沉淀无用数据的应该提供批量删除功能，比如任务、文件、日志等）
+例如 DELETE [/api/tasks?ids=1,2,3](/api/tasks?ids=1,2,3) 表示批量删除 id 为 1 或 2 或 3 的任务
 
-## **4. 文件类接口**
+注意：如果列表数据量较大或容易沉淀无用数据的应该提供批量删除功能，比如任务、文件、日志等
 
-**4.1 提供统一文件上传接口，应该支持单个和批量上传所有类型文件**
+## 4. 文件类接口
 
-- 单文件上传 [/api/files](/api/file)
+**4.1 统一提供统单文件上传接口（[/api/files](/api/file)），支持上传所有类型文件**
 
-  ```javascript
-  // 请求，注意这里是 FormData
-  {
-    file: File
+```javascript
+// 请求，注意这里是 FormData
+{
+  file: File
+}
+
+// 响应
+{
+  code: 20000
+  status: 200;
+  message: "上传成功",
+  data: {
+    id: 'bb313c99',
+    url: '/files/bb313c99.pdf'
+    name: '合同.pdf' // 原文件的名称
   }
+}
+```
 
-  // 响应
-  {
-    code: 20000
-    status: 200;
-    message: "上传成功",
-    data: {
-      id: 'bb313c99',
-      url: '/files/bb313c99.pdf'
-      name: '合同.pdf' // 原文件的名称
-    }
-  }
-  ```
+**4.1 统一提供统多文件上传接口（[/api/multiple-files](/api/multiple-files)），支持上传所有类型文件**
 
-- 多文件上传[/api/multiple-files](/api/multiple-files)
+```javascript
+// 请求，注意这里是 FormData
+{
+  files: [File, File]
+}
 
-  ```javascript
-  // 请求，注意这里是 FormData
-  {
-    files: [File, File]
-  }
+// 响应
+{
+  code: 20000
+  status: 200;
+  message: "上传成功",
+  data: [{
+    id: 'bb313c99',
+    url: '/files/bb313c99.pdf'
+    name: '合同1.pdf' // 原文件的名称
+  }, {
+    id: 'bb313c88',
+    url: '/files/bb313c88.pdf'
+    name: '合同2.pdf' // 原文件的名称
+  }]
+}
+```
 
-  // 响应
-  {
-    code: 20000
-    status: 200;
-    message: "上传成功",
-    data: [{
-      id: 'bb313c99',
-      url: '/files/bb313c99.pdf'
-      name: '合同1.pdf' // 原文件的名称
-    }, {
-      id: 'bb313c88',
-      url: '/files/bb313c88.pdf'
-      name: '合同2.pdf' // 原文件的名称
-    }]
-  }
-  ```
-
-**4.2 文件路径应该由服务端至少补全至根路径**
+**4.3 文件路径应该由服务端至少补全至根路径**
 
 ```javascript
 // 正确
@@ -439,7 +439,7 @@
 }
 ```
 
-**4.3 对于使用到文件的接口应该使用文件 id 或地址而非 FormData**
+**4.4 对于使用到文件的接口应该使用文件 id 或地址而非 FormData**
 
 ```javascript
 // 正确
@@ -458,7 +458,7 @@
 
 注意：应该先由 POST [api/files](/api/files) 上传完文件拿到文件 id 或地址后再执行后续操作
 
-## **5. 敏感类接口**
+## 5. 敏感类接口
 
 **5.1 涉及到用户隐私的应该对相关字段做加密处理，**
 
@@ -480,7 +480,7 @@
 
 注意：本规范不约定使用何种加密算法，请视实际场景而定
 
-## **6. 图表类接口**
+## 6. 图表类接口
 
 **6.1 曲线图、柱状图**
 
