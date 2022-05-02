@@ -278,9 +278,9 @@
 
 例如 GET [/api/tasks?status=pending,complete](/api/tasks?status=pending,complete) 表示查询状态为阻塞和完成的任务
 
-例如 GET [/api/tasks?price_gt=10&price_lt=20](/api/tasks?price_gt=10&price_lt=20) 表示查询价格在 10 和 20 之间的任务
+例如 GET [/api/tasks?weight_gt=10&weight_lt=20](/api/tasks?weight_gt=10&weight_lt=20) 表示查询权重在 10 和 20 之间的任务
 
-例如 GET [/api/tasks?price_gt=10](/api/tasks?price_gt=10) 表示查询价格大于 10 的任务
+例如 GET [/api/tasks?weight_gt=10](/api/tasks?weight_gt=10) 表示查询权重大于 10 的任务
 
 **3.4 应该尽可能返回所有关联数据展开详情，便于客户端显示**
 
