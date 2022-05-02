@@ -399,7 +399,7 @@
 }
 ```
 
-#### 4.1 统一提供统多文件上传接口（[/api/multiple-files](/api/multiple-files)），支持上传所有类型文件
+#### 4.2 统一提供统多文件上传接口（[/api/multiple-files](/api/multiple-files)），支持上传所有类型文件
 
 ```javascript
 // 请求，注意这里是 FormData
