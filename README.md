@@ -85,8 +85,8 @@
 
   ```javascript
   {
-    code: 20000
-    status: 200;
+    code: 20000,
+    status: 200,
     message: "请求成功",
     data: {
       id: 1,
@@ -99,8 +99,8 @@
 
   ```javascript
   {
-    code: 20000
-    status: 200;
+    code: 20000,
+    status: 200,
     message: "请求成功",
     data: {
       items: [{
@@ -151,8 +151,8 @@
 ```javascript
 // 正确
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     id: 1,
@@ -161,8 +161,8 @@
 }
 // 错误
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     id: 1,
@@ -176,8 +176,8 @@
 ```javascript
 // 正确
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     roles: [{
@@ -191,8 +191,8 @@
 }
 // 错误
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     roles: '[{"id":1,"name":"角色 1"},{"id":2,"name":"角色 2"}]'
@@ -206,8 +206,8 @@
 
 ```javascript
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "创建成功",
   data: {
      id: 1,
@@ -290,8 +290,8 @@
 
 ```javascript
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     id: 1,
@@ -315,8 +315,8 @@
 ```javascript
 // 正确
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     id: 1,
@@ -326,8 +326,8 @@
 }
 // 错误
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     id: 1,
@@ -342,8 +342,8 @@
 ```javascript
 // 正确
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     id: 1,
@@ -356,8 +356,8 @@
 }
 // 错误
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     id: 1,
@@ -388,8 +388,8 @@
 
 // 响应
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "上传成功",
   data: {
     id: 'bb313c99',
@@ -409,8 +409,8 @@
 
 // 响应
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "上传成功",
   data: [{
     id: 'bb313c99',
@@ -429,8 +429,8 @@
 ```javascript
 // 正确
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     id: 1,
@@ -442,8 +442,8 @@
 }
 // 错误
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     id: 1,
@@ -500,8 +500,8 @@
 
 ```javascript
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     x_axis: ['2022.04.20','2022.04.21', '2022.04.22']
@@ -522,8 +522,8 @@
 
 ```javascript
 {
-  code: 20000
-  status: 200;
+  code: 20000,
+  status: 200,
   message: "请求成功",
   data: {
     series: [{
