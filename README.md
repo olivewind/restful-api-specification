@@ -17,7 +17,7 @@
 
 ## 1. 基础约定
 
-#### 1.1 接口路径以 /api 或 /[version]/api 开头
+#### 1.1 接口路径以 `/api` 或 `/[version]/api` 开头
 
 正确：`/api/task` 或 `/v2/api/tasks`
 
@@ -25,7 +25,7 @@
 
 注意：一个产品无论后端有多少个服务组成也应该只有一个 API 入口
 
-#### 1.2 接口路径以 api/aa-bb/cc-dd 方式命名
+#### 1.2 接口路径以 `api/aa-bb/cc-dd` 方式命名
 
 正确：`/api/task-groups`
 
