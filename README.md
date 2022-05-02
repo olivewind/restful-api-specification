@@ -19,49 +19,49 @@
 
 #### 1.1 接口路径以 /api 或 /[version]/api 开头
 
-正确：[/api/tasks](/api/tasks) 或 [/v2/api/tasks](/v2/api//tasks)
+正确：`/api/task` 或 `/v2/api/tasks`
 
-错误：[/biz/tasks](/biz/tasks) 或 [/biz/api/tasks](/biz/api/tasks)
+错误：`/biz/tasks` 或 `/biz/api/tasks`
 
 注意：一个产品无论后端有多少个服务组成也应该只有一个 API 入口
 
 #### 1.2 接口路径以 api/aa-bb/cc-dd 方式命名
 
-正确：[/api/task-groups](/api/task-groups)
+正确：`/api/task-groups`
 
-错误：[/api/taskGroups](/api/taskGroups)
+错误：`/api/taskGroups`
 
 #### 1.3 接口路径使用资源名词而非动词，动作应由 HTTP Method 体现，资源组可以进行逻辑嵌套
 
-正确：POST [/api/tasks](/api/tasks) 或 [/api/task-groups/1/tasks](/api/task-groups/1/tasks) 表示在 id 为 1 的任务组下创建任务
+正确：POST `/api/tasks` 或 `/api/task-groups/1/tasks` 表示在 id 为 1 的任务组下创建任务
 
-错误：POST [/api/create-task](/api/create-task)
+错误：POST `/api/create-task`
 
 #### 1.4 接口路径中的资源使用复数而非单数
 
-正确：[/api/tasks](/api/tasks)
+正确：`/api/tasks`
 
-错误：[/api/task](/api/task)
+错误：`/api/task`
 
 #### 1.5 接口设计面向开放接口，而非单纯前端业务
 
 要求我们在给结构路径命名时候面向通用业务的开放接口，而非单纯前端业务，以获取筛选表单中的任务字段下拉选项为例
 
-正确：[/api/tasks](/api/tasks)
+正确：`/api/tasks`
 
-错误：[/api/task-select-options](/api/task-select-options)
+错误：`/api/task-select-options`
 
 虽然这个接口暂时只用在表单的下拉选择中，但是需要考虑的是在未来可能会被用在任意场景，因此应以更通用方式提供接口交由客户端自由组合
 
 #### 1.6 规范使用 HTTP 方法
 
-| 方法   | 场景         | 例如                                                                               |
-| ------ | ------------ | ---------------------------------------------------------------------------------- |
-| GET    | 获取数据     | 获取单个：GET [/api/tasks/1](/api/tasks/1)、获取列表：GET [/api/tasks](/api/tasks) |
-| POST   | 创建数据     | 创建单个：POST [/api/tasks](/api/tasks)                                            |
-| PATCH  | 差量修改数据 | 修改单个：PATCH [/api/tasks/1](/api/tasks/1)                                       |
-| PUT    | 全量修改数据 | 修改单个：PUT [/api/tasks/1](/api/tasks/1)                                         |
-| DELETE | 删除数据     | 删除单个：DELETE [/api/tasks/1](/api/tasks/1)                                      |
+| 方法   | 场景         | 例如                                                     |
+| ------ | ------------ | -------------------------------------------------------- |
+| GET    | 获取数据     | 获取单个：GET `/api/tasks/1`、获取列表：GET `/api/tasks` |
+| POST   | 创建数据     | 创建单个：POST `/api/tasks`                              |
+| PATCH  | 差量修改数据 | 修改单个：PATCH `/api/tasks/1`                           |
+| PUT    | 全量修改数据 | 修改单个：PUT `/api/tasks/1`                             |
+| DELETE | 删除数据     | 删除单个：DELETE `/api/tasks/1`                          |
 
 其它更多请求方法请查阅 [MDN Web Docs](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods)
 
@@ -217,7 +217,7 @@
 
 #### 2.2 关联关系只以 id 为标识，其它字段不应依赖客户端，
 
-以创建用户为例：POST [/api/users](/api/users)
+以创建用户为例：POST `/api/users`
 
 ```javascript
 // 正确
@@ -264,27 +264,27 @@
 
 #### 3.1 排序使用 sort 和 order
 
-例如 GET [/api/](/api/user/1)[tasks?](/api/user/1)[sort=created_at&order=descend](/api/users?sort_key=create_time&sort_order=descend) 表示以创建时间降序查询数据
+例如 GET `/api/tasks?sort=created_at&order=descend` 表示以创建时间降序查询数据
 
 注意：其中 `order` 为 `descend` 时表示降序，为 `ascend` 时表示升序
 
 #### 3.2 分页使用 page 和 per_page
 
-例如 GET [/api/tasks?page=1&per_page=10](/api/tasks?page=1&per_page=10) 表示每页 10 条查询第一页数据
+例如 GET `/api/tasks?page=1&per_page=10` 表示每页 10 条查询第一页数据
 
 注意：其中 `page` 从 1 开始，而不是 0，如果没有传递 `per_page` 和 `page` 参数表示不分页获取所有数据
 
 #### 3.3 普通筛选使用键值对，多列模糊查询使用 `keyword` 关键词，枚举筛选使用数组合并拼接，区间使用 `xxx_lt` 和 `xxx_gt` 关键词
 
-例如 GET [/api/tasks?creator=ming](/api/tasks?creator=ming) 表示查询所有 ming 用户创建的任务
+例如 GET `/api/tasks?creator=ming` 表示查询所有 ming 用户创建的任务
 
-例如 GET [/api/tasks?keyword=ming](/api/tasks?keyword=ming) 表示查询任意列包含 ming 关键词的任务
+例如 GET `/api/tasks?keyword=ming` 表示查询任意列包含 ming 关键词的任务
 
-例如 GET [/api/tasks?status=pending,complete](/api/tasks?status=pending,complete) 表示查询状态为阻塞和完成的任务
+例如 GET `/api/tasks?status=pending,complete` 表示查询状态为阻塞和完成的任务
 
-例如 GET [/api/tasks?weight_gt=10&weight_lt=20](/api/tasks?weight_gt=10&weight_lt=20) 表示查询权重在 10 和 20 之间的任务
+例如 GET `/api/tasks?weight_gt=10&weight_lt=20` 表示查询权重在 10 和 20 之间的任务
 
-例如 GET [/api/tasks?weight_gt=10](/api/tasks?weight_gt=10) 表示查询权重大于 10 的任务
+例如 GET `/api/tasks?weight_gt=10` 表示查询权重大于 10 的任务
 
 #### 3.4 尽可能返回所有关联数据展开详情，便于客户端显示
 
@@ -370,15 +370,15 @@
 
 #### 3.7 删除接口应酌情提供批量删除
 
-例如 DELETE [/api/tasks/1](/api/tasks/1)表示删除 id 为 1 的任务
+例如 DELETE `/api/tasks/1` 表示删除 id 为 1 的任务
 
-例如 DELETE [/api/tasks?ids=1,2,3](/api/tasks?ids=1,2,3) 表示批量删除 id 为 1 或 2 或 3 的任务
+例如 DELETE `/api/tasks?ids=1,2,3` 表示批量删除 id 为 1 或 2 或 3 的任务
 
 注意：如果列表数据量较大或容易沉淀无用数据的应提供批量删除功能，比如任务、文件、日志等
 
 ## 4. 文件类接口
 
-#### 4.1 统一提供单文件上传接口（[/api/files](/api/file)），支持上传所有类型文件
+#### 4.1 统一提供单文件上传接口（`/api/files`），支持上传所有类型文件
 
 ```javascript
 // 请求，注意这里是 FormData
@@ -399,7 +399,7 @@
 }
 ```
 
-#### 4.2 统一提供多文件上传接口（[/api/multiple-files](/api/multiple-files)），支持上传所有类型文件
+#### 4.2 统一提供多文件上传接口（`/api/multiple-files`），支持上传所有类型文件
 
 ```javascript
 // 请求，注意这里是 FormData
@@ -470,7 +470,7 @@
 }
 ```
 
-注意：先由 POST [api/files](/api/files) 上传完文件拿到文件 id 或地址后再执行后续操作
+注意：先由 POST `api/files` 上传完文件拿到文件 id 或地址后再执行后续操作
 
 ## 5. 敏感类接口
 
